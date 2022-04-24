@@ -17,3 +17,4 @@ void sleep();
 void solve_grid();
 void automatic_solve();
 void generate_grid();
+int chose_size();

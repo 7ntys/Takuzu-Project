@@ -4,5 +4,7 @@
 #include "function.h"
 
 int main(){
+    clock_t start = clock();
+    intro();
     menu();
 }

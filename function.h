@@ -6,7 +6,14 @@
 #define TAKUZU_PROJECT_FUNCTION_H
 #include <stdio.h>
 #include <stdlib.h>
+#include "time.h"
 
 #endif //TAKUZU_PROJECT_FUNCTION_H
 
+void intro();
+void clear();
 int menu();
+void sleep();
+void solve_grid();
+void automatic_solve();
+void generate_grid();

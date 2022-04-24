@@ -21,8 +21,9 @@ int menu(){
            "3 : Generate a Grid\n"
             );
     scanf("%d",&answer);
-    do{
-        printf("Error you entered a wrong integer"
+    while(answer < 1 || answer > 3){
+        clear();
+        printf("Error you entered a wrong integer\n"
                "Chose the game mode you'll like to play by entering the integer corresponding\n"
                "1 : Solve a grid \n"
                "2 : Solve automatically a grid \n"
@@ -30,7 +31,6 @@ int menu(){
         );
         scanf("%d",&answer);
     }
-    while(answer < 0 || answer > 3);
 
 
     if(answer==1){
@@ -69,5 +69,29 @@ void automatic_solve(){
     clear();
 }
 void generate_grid(){
+    int size = chose_size();
     clear();
+    if(size==1){
+        printf("4x4 grid");
+    }
+    else{
+        printf("8x8 grid");
+    }
+}
+int chose_size(){
+    int answer;
+    clear();
+    printf("Enter the size of the takuzu grid you want \n"
+           "1 : 4x4 grid \n"
+           "2 : 8x8 grid \n");
+    scanf("%d",&answer);
+    while(answer<1 || answer >2){
+        clear();
+        printf("Error the integer doesn't correspond to a choice\n "
+               "Enter the size of the takuzu grid you want \n"
+               "1 : 4x4 grid \n"
+               "2 : 8x8 grid \n");
+        scanf("%d",&answer);
+    }
+    return answer;
 }

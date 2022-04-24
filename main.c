@@ -5,7 +5,6 @@
 
 int main(){
     clock_t start = clock();
+    intro();
     menu();
-    printf("test");
-    printf("\033[H\033[2J");
 }

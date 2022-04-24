@@ -10,6 +10,10 @@
 
 #endif //TAKUZU_PROJECT_FUNCTION_H
 
-int menu();
+void intro();
 void clear();
+int menu();
 void sleep();
+void solve_grid();
+void automatic_solve();
+void generate_grid();

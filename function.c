@@ -70,9 +70,26 @@ void automatic_solve(){
 }
 void generate_grid(){
     int size = chose_size();
-    clear();
+    printf("%d",rand() % 2);
     if(size==1){
-        printf("4x4 grid");
+        clear();
+        /* each row should be considered as a binary code from 0 to 15 */
+        /*generation of the grid */
+        int grid[4][4];
+        do {
+            for(int i=0;i<4;i++){
+                for(int j=0; j<4;j++){
+                    grid[i][j] = rand() %2 ;
+                    printf("%d",grid[i][j]);
+                }
+                printf("\n");
+
+            }
+
+        }
+        while(0);
+
+
     }
     else{
         printf("8x8 grid");

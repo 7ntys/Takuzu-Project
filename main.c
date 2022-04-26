@@ -5,6 +5,7 @@
 
 int main(){
     clock_t start = clock();
+    srand(time(0));
     intro();
     menu();
 }

@@ -76,18 +76,27 @@ void generate_grid(){
         /* each row should be considered as a binary code from 0 to 15 */
         /*generation of the grid */
         int grid[4][4];
+        int compteur = 0;
         do {
             for(int i=0;i<4;i++){
-                for(int j=0; j<4;j++){
-                    grid[i][j] = rand() %2 ;
-                    printf("%d",grid[i][j]);
+
+                if( i ==3 ){
+                    if(grid[0][i-1]==grid[0][i-2]){
+                        printf("yes");
+                        grid[0][i] = (grid[0][i] +1) %2;
+                    }
                 }
-                printf("\n");
+                grid[0][i] = rand() %2 ;
+                printf("%d " , grid[0][i]);
+
 
             }
+            printf("\n");
+            compteur +=1;
+
 
         }
-        while(0);
+        while(compteur != 10);
 
 
     }

@@ -77,22 +77,31 @@ void generate_grid(){
         /*generation of the grid */
         int grid[4][4];
         int compteur = 0;
+        int j =0;
         do {
             for(int i=0;i<4;i++){
 
-                if( i ==3 ){
+                if( i >=2){
                     if(grid[0][i-1]==grid[0][i-2]){
-                        printf("yes");
-                        grid[0][i] = (grid[0][i] +1) %2;
+                        if(grid[0][i-1] == 1){
+                            grid[0][i] = 0;
+                        }
+                        else{
+                            grid[0][i] = 1;
+                        }
                     }
                 }
-                grid[0][i] = rand() %2 ;
+                else{
+                    grid[0][i] = rand() %2 ;
+                }
+
                 printf("%d " , grid[0][i]);
 
 
             }
             printf("\n");
             compteur +=1;
+            j +=1;
 
 
         }

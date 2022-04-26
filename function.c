@@ -78,30 +78,65 @@ void generate_grid(){
         int grid[4][4];
         int compteur = 0;
         int j =0;
+        int somme;
         do {
             for(int i=0;i<4;i++){
 
+
+                if (j==1){
+                    for(int a = 0; a < 4;a++){
+                        somme += grid[j][a];
+                        int temp = somme;
+                        while (temp != 0){
+                            if( i >=2){
+                                if(grid[j][i-1]==grid[j][i-2]){
+                                    if(grid[j][i-1] == 1){
+                                        grid[j][i] = 0;
+                                    }
+                                    else{
+                                        grid[j][i] = 1;
+                                        temp--;
+                                    }
+                                }
+                            }
+                            else{
+                                grid[j][i] = rand() %2 ;
+                                if (grid[j][i] == 1){
+                                    temp--;
+
+                                }
+                            }
+
+                            printf("%d " , grid[j][i]);
+                            printf("%d",temp);
+
+                        }
+
+                    }
+
+                }
                 if( i >=2){
-                    if(grid[0][i-1]==grid[0][i-2]){
-                        if(grid[0][i-1] == 1){
-                            grid[0][i] = 0;
+                    if(grid[j][i-1]==grid[j][i-2]){
+                        if(grid[j][i-1] == 1){
+                            grid[j][i] = 0;
                         }
                         else{
-                            grid[0][i] = 1;
+                            grid[j][i] = 1;
                         }
                     }
                 }
                 else{
-                    grid[0][i] = rand() %2 ;
+                    grid[j][i] = rand() %2 ;
                 }
 
-                printf("%d " , grid[0][i]);
+                printf("%d " , grid[j][i]);
 
 
             }
             printf("\n");
             compteur +=1;
-            j +=1;
+
+            j++;
 
 
         }

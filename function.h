@@ -20,4 +20,5 @@ void automatic_solve();
 void generate_grid();
 int chose_size();
 int check_grid(int n);
+int test(int n);
 int generate_row();

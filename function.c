@@ -70,48 +70,9 @@ void automatic_solve(){
 }
 void generate_grid(){
     int size = chose_size();
-    printf("%d",rand() % 2);
-    if(size==1){
-        clear();
-        /* each row should be considered as a binary code from 0 to 15 */
-        /*generation of the grid */
-        int grid[4][4];
-        int compteur = 0;
-        int j =0;
-        do {
-            for(int i=0;i<4;i++){
-
-                if( i >=2){
-                    if(grid[0][i-1]==grid[0][i-2]){
-                        if(grid[0][i-1] == 1){
-                            grid[0][i] = 0;
-                        }
-                        else{
-                            grid[0][i] = 1;
-                        }
-                    }
-                }
-                else{
-                    grid[0][i] = rand() %2 ;
-                }
-
-                printf("%d " , grid[0][i]);
-
-
-            }
-            printf("\n");
-            compteur +=1;
-            j +=1;
-
-
-        }
-        while(compteur != 10);
-
-
-    }
-    else{
-        printf("8x8 grid");
-    }
+    test(4);
+    clear();
+    printf("oui");
 }
 int chose_size(){
     int answer;
@@ -130,3 +91,75 @@ int chose_size(){
     }
     return answer;
 }
+int test(int n){
+    clear();
+    /* each row should be considered as a binary code from 0 to 15 */
+    /*generation of the grid */
+    int grid[4][4];
+    int compteur = 0;
+    int nombre_1 = 0;
+    int j =0;
+    for(int a=0;a<n;a++){
+        /*Premiere iteration : pas besoin de regarder le nombre de 1 : cette ligne dicte le takuzu */
+        if(a==0){
+            for(int i=0;i<n;i++){
+                if( i >=2){
+                    if(grid[0][i-1]==grid[0][i-2]){
+                        if(grid[0][i-1] == 1){
+                            grid[0][i] = 0;
+                        }
+                        else{
+                            grid[0][i] = 1;
+                        }
+                    }
+                    else{
+                        grid[0][i] = rand() %2 ;
+                    }
+                }
+                else{
+                    grid[0][i] = rand() %2 ;
+                }
+            }
+            /*on compte le nombre de 1*/
+            for(int z=0;z<n;z++){
+                if(grid[0][z] == 1){
+                    nombre_1 +=1;
+                }
+            }
+            printf("\nLe nombre de 1 est %d\n", nombre_1);
+        }
+        /* Premiere itération passé, on doit mtn regarder le nombre de 1 a mettre*/
+        else{
+            /*On sait que l'on a nombre_1 nombre de 1 : il faut donc qu'on s'assure qu'il y ait autant de 1 que dans
+             * la premiere ligne*/
+            int temp = nombre_1;
+            for(int i =0;i<n;i++){
+                grid[a][i] = 0;
+            }
+            if(temp==1){
+                int nombre = rand() %3;
+                grid[a][nombre] = 1;
+            }
+            else{
+                int nbr1 =0, nbr2 = 0;
+                while(nbr1 == nbr2){
+                    nbr1 = rand() %3;
+                    nbr2 = rand() %3;
+                }
+
+
+            }
+        }
+        }
+
+    for(int i=0;i<n;i++){
+        for(int j =0;j<n;j++){
+            printf("%d",grid[i][j]);
+        }
+        printf("\n");
+    }/* print*/
+        compteur +=1;
+        j +=1;
+
+
+    }

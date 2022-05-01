@@ -181,64 +181,56 @@ int test(int n){
 
 
     }
-int indice(int n ,grid[4][4]){
-    int array[4] = {0,0,0,0};
+int indice(int n ,grid[4][4]) {
+    int array[4] = {0, 0, 0, 0};
     print(grid);
     printf("--------------------\n");
-    for(int i=2;i<4;i++){
-        for(int j=0;j<4;j++){
-            if(grid[i-2][j] == grid[i-1][j] ){
-                grid[i][j] = (grid[i-1][j] +1) %2;
+    for (int i = 2; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (grid[i - 2][j] == grid[i - 1][j]) {
+                grid[i][j] = (grid[i - 1][j] + 1) % 2;
             }
         }
     }
     print(grid);
     int cpt = 0;
-    for(int i=0;i<4;i++){
-        if(grid[2][i] == 1){
-            cpt +=1;
+    for (int i = 0; i < 4; i++) {
+        if (grid[2][i] == 1) {
+            cpt += 1;
         }
     }
-    if(cpt <2){
-        while(cpt != 2){
-            int nbr1 = rand() %4;
-            if(grid[2][nbr1] ==2 ){
+    if (cpt < 2) {
+        while (cpt != 2) {
+            int nbr1 = rand() % 4;
+            if (grid[2][nbr1] == 2) {
                 grid[2][nbr1] = 1;
                 cpt++;
             }
         }
     }
-    for(int i=0;i<4;i++){
-        if(grid[2][i] == 2){
+    for (int i = 0; i < 4; i++) {
+        if (grid[2][i] == 2) {
             grid[2][i] = 0;
         }
     }
     print(grid);
     int *p = array1(grid);
-    for(int i=0;i<4;i++){
-        printf("%d",p[i]);
+    for (int i = 0; i < 4; i++) {
+        printf("%d", p[i]);
     }
-    for(int i = 0;i<4;i++){
-        if(p[i] == 1){
+    for (int i = 0; i < 4; i++) {
+        if (p[i] == 1) {
             grid[3][i] = 1;
-        }
-        else if(p[i]== 2){
+        } else if (p[i] == 2) {
             grid[3][i] = 0;
         }
     }
-    print(grid);
-    for(int i=0;i<4;i++){
-        for(int j =0;j<4;j++){
-            if (verification(i,j,grid[4][4]) == 1){
-                test(4);
-            }
-        }
+    if(verification(grid)==0){
+        test(4);
     }
-
-
-
-
-    print(grid);
+    else{
+        print(grid);
+    }
 }
 void print(grid[4][4]){
     clear();
@@ -262,15 +254,102 @@ int* array1(grid[4][4]){
     }
     return array;
 }
-int verification(int m,int n,grid[4][4]) {
+int verification(grid[4][4]) {
     int similarity = 0;
-    for (int j = 0; j < 4; j++) {
-        if (grid[m][j] == grid[n][j]) {
-            similarity++;
+    int *p;
+    int nombre[4] = {0,0,0,0};
+    /*On recupere chaque ligne de notre grid, l'isole, la transforme en binaire et la stock dans l'array nombre[]
+     * puis on compare tout les nombres pour savoir si les lignes sont uniques */
+    for(int i=0;i<4;i++){
+        int ligne[4] ={0,0,0,0};
+        int* a =ligne;
+        //pour les lignes :
+        recup_ligne(grid,i,a);
+        clear();
+        printf(" \n----------Apres recup ligne----- \n");
+        printf("\n %d %d %d %d",a[0],a[1],a[2],a[3]);
+        nombre[i] = conversion_binaire(ligne);
+        clear_ligne(a);
+    }
+    printf("\n---------------Verification qu'aucun nombre sont égaux \n");
+    print(grid);
+    for(int i=0;i<4;i++){
+        printf("%d\n",nombre[i]);
+    }
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            if(nombre[i] == nombre[j] && i!=j){
+                similarity = 1;
+            }
         }
     }
-    if(similarity == 4){
-        return 1;
+    if(similarity==1){
+        return 0;
     }
-    return 0;
+    else{
+        /*On verifie maintenant de la meme maniere si les columns sont toutes uniques*/
+        printf("\nON PASSE AU COLUMNS \n");
+        /*On clear l'array nombre*/
+        for(int i=0;i<4;i++){
+            nombre[i]= 0;
+        }
+        for(int i=0;i<4;i++){
+            int ligne[4] ={0,0,0,0};
+            int* a =ligne;
+            //pour les columns :
+            recup_column(grid,i,a);
+            clear();
+            printf(" \n----------Apres recup column number %d----- \n", i+1);
+            printf("\n %d %d %d %d",a[0],a[1],a[2],a[3]);
+            nombre[i] = conversion_binaire(ligne);
+            printf("\nnombre binaire associé :%d",nombre[i]);
+            clear_ligne(a);
+        }
+        /*On verifie que tout les nombres binaires sont uniques */
+        print(grid);
+        for(int i=0;i<4;i++){
+            printf("%d\n",nombre[i]);
+        }
+        similarity =0;
+        for(int i=0;i<4;i++){
+            for(int j=0;j<4;j++){
+                if(nombre[i] == nombre[j] && i!=j){
+                    similarity = 1;
+                }
+            }
+        }
+        if(similarity==1){
+            test(4);
+        }
+        else{
+            printf("\nLETS GOOOOOOO");
+            return 1;
+        }
+
+    }
+
+}
+int conversion_binaire(array[]){
+    int nombre=0;
+    for(int i=0;i<4;i++){
+        if(array[i] == 1){
+            nombre += pow(2,(3-i));
+        }
+    }
+    return nombre;
+}
+void recup_ligne(grid[4][4],int i,int* a){
+    for(int n=0;n<4;n++){
+        a[n] = grid[i][n];
+    }
+}
+void clear_ligne(int array[4]){
+    for(int i=0;i<4;i++){
+        array[i] =0;
+    }
+}
+void recup_column(grid[4][4],int i,int* a){
+    for(int n=0;n<4;n++){
+        a[n] = grid[n][i];
+    }
 }

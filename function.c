@@ -72,7 +72,6 @@ void automatic_solve(){
 void generate_grid(){
     int size = chose_size();
     test(4);
-    clear();
     printf("oui");
 }
 int chose_size(){
@@ -93,7 +92,6 @@ int chose_size(){
     return answer;
 }
 int test(int n){
-    clear();
     /* each row should be considered as a binary code from 0 to 15 */
     /*generation of the grid */
     int grid[4][4];
@@ -217,6 +215,7 @@ int indice(int n ,grid[4][4]) {
             grid[3][i] = 0;
         }
     }
+    print(grid);
     if(verification(grid)==0){
         test(4);
     }
@@ -258,7 +257,6 @@ int verification(grid[4][4]) {
         int* a =ligne;
         //pour les lignes :
         recup_ligne(grid,i,a);
-        clear();
         nombre[i] = conversion_binaire(ligne);
         clear_ligne(a);
     }

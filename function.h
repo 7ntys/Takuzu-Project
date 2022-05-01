@@ -24,7 +24,7 @@ int test(int n);
 int generate_row();
 int indice(int n,grid[n][n]);
 void print(grid[4][4]);
-int* array1(grid[4][4]);
+int* array1(int grid[4][4],int* pointeur);
 int verification(int grid[4][4]);
 int conversion_binaire(int array[4]);
 void recup_ligne(int grid[4][4] , int i, int* a);

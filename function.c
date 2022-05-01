@@ -133,7 +133,6 @@ int test(int n){
             if(nombre_1 !=2){
                 break;
             }
-            printf("\nLe nombre de 1 est %d\n", nombre_1);
         }
         /* Premiere itération passé, on doit mtn regarder le nombre de 1 a mettre*/
         else if(a==1){
@@ -160,11 +159,7 @@ int test(int n){
                     nbr1 = nbr2;
                     compteur= 0;
                 }
-                printf("nbr1 = %d , nbr2 = %d \n",nbr1,nbr2);
             }
-
-            printf("2");
-            print(grid);
         }
         else if(a>=2){
             for(int i =0;i<4;i++){
@@ -183,8 +178,6 @@ int test(int n){
     }
 int indice(int n ,grid[4][4]) {
     int array[4] = {0, 0, 0, 0};
-    print(grid);
-    printf("--------------------\n");
     for (int i = 2; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (grid[i - 2][j] == grid[i - 1][j]) {
@@ -192,7 +185,6 @@ int indice(int n ,grid[4][4]) {
             }
         }
     }
-    print(grid);
     int cpt = 0;
     for (int i = 0; i < 4; i++) {
         if (grid[2][i] == 1) {
@@ -213,23 +205,20 @@ int indice(int n ,grid[4][4]) {
             grid[2][i] = 0;
         }
     }
-    print(grid);
-    int *p = array1(grid);
-    for (int i = 0; i < 4; i++) {
-        printf("%d", p[i]);
-    }
-    for (int i = 0; i < 4; i++) {
-        if (p[i] == 1) {
+    int* vertical;
+    int array_empty[4] = {0,0,0,0};
+    vertical = array_empty;
+    vertical = array1(grid,vertical);
+    for(int i = 0;i<4;i++){
+        if(vertical[i] == 1){
             grid[3][i] = 1;
-        } else if (p[i] == 2) {
+        }
+        else if(vertical[i]== 2 && grid[3][1] !=1){
             grid[3][i] = 0;
         }
     }
     if(verification(grid)==0){
         test(4);
-    }
-    else{
-        print(grid);
     }
 }
 void print(grid[4][4]){
@@ -243,16 +232,20 @@ void print(grid[4][4]){
     }
     printf("\n--------------------------------\n");
 }
-int* array1(grid[4][4]){
-    int array[4];
+int* array1(int grid[4][4],int* pointeur){
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
-            if(grid[i][j] == 1){
-                array[j] += 1;
+            if(grid[i][j] == 1) {
+                pointeur[j] += 1;
             }
+            else{
+                pointeur[j] += 0;
+            }
+
         }
     }
-    return array;
+
+    return pointeur;
 }
 int verification(grid[4][4]) {
     int similarity = 0;
@@ -266,15 +259,8 @@ int verification(grid[4][4]) {
         //pour les lignes :
         recup_ligne(grid,i,a);
         clear();
-        printf(" \n----------Apres recup ligne----- \n");
-        printf("\n %d %d %d %d",a[0],a[1],a[2],a[3]);
         nombre[i] = conversion_binaire(ligne);
         clear_ligne(a);
-    }
-    printf("\n---------------Verification qu'aucun nombre sont égaux \n");
-    print(grid);
-    for(int i=0;i<4;i++){
-        printf("%d\n",nombre[i]);
     }
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -288,7 +274,6 @@ int verification(grid[4][4]) {
     }
     else{
         /*On verifie maintenant de la meme maniere si les columns sont toutes uniques*/
-        printf("\nON PASSE AU COLUMNS \n");
         /*On clear l'array nombre*/
         for(int i=0;i<4;i++){
             nombre[i]= 0;
@@ -298,18 +283,10 @@ int verification(grid[4][4]) {
             int* a =ligne;
             //pour les columns :
             recup_column(grid,i,a);
-            clear();
-            printf(" \n----------Apres recup column number %d----- \n", i+1);
-            printf("\n %d %d %d %d",a[0],a[1],a[2],a[3]);
             nombre[i] = conversion_binaire(ligne);
-            printf("\nnombre binaire associé :%d",nombre[i]);
             clear_ligne(a);
         }
         /*On verifie que tout les nombres binaires sont uniques */
-        print(grid);
-        for(int i=0;i<4;i++){
-            printf("%d\n",nombre[i]);
-        }
         similarity =0;
         for(int i=0;i<4;i++){
             for(int j=0;j<4;j++){
@@ -322,7 +299,6 @@ int verification(grid[4][4]) {
             test(4);
         }
         else{
-            printf("\nLETS GOOOOOOO");
             return 1;
         }
 

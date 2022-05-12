@@ -1,8 +1,0 @@
-# ninja log v5
-1	34	1651435630682836090	CMakeFiles/Takuzu_Project.dir/main.c.o	32da3a498e3af0d2
-40	72	1651436109175246373	Takuzu_Project	858c0f1ce54352ce
-0	40	1651436109142770358	CMakeFiles/Takuzu_Project.dir/function.c.o	943fdc7191a2932
-1	48	1651436452206498205	CMakeFiles/Takuzu_Project.dir/function.c.o	943fdc7191a2932
-51	87	1651436452252664372	Takuzu_Project	858c0f1ce54352ce
-0	38	1651436630333685733	CMakeFiles/Takuzu_Project.dir/function.c.o	943fdc7191a2932
-38	69	1651436630365311921	Takuzu_Project	858c0f1ce54352ce

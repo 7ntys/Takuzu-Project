@@ -66,17 +66,21 @@ void sleep(int seconds) {
 void solve_grid(){
     clear();
     struct grille grid ;
-    grid = generate_grid();
-    clear();
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
-            printf("%d",grid.grid[i][j]);
+    struct grille* mask ;
+    mask = (struct grille*) malloc(sizeof(struct grille));
+    int result=0;
+    do{
+        grid = generate_grid();
+        clear();
+        for(int i=0;i<4;i++){
+            for(int j=0;j<4;j++){
+                printf("%d",grid.grid[i][j]);
+            }
+            printf("\n");
         }
-        printf("\n");
+        result =generate_mask(grid , mask);
     }
-    generate_mask(grid);
-
-
+    while(result ==0);
 
 }
 void automatic_solve(){
@@ -360,68 +364,63 @@ void recup_column(int grid[4][4],int i,int* a){
         a[n] = grid[n][i];
     }
 }
-struct grille generate_mask(struct grille grid){
+int generate_mask(struct grille grid, struct grille* mask){
     printf("\nca rentre\n");
-    struct grille mask;
-    mask = clear_grid(mask);
+    clear_grid(mask);
+    printf("ici");
     int compteur=0;
     /* On genere un masque avec 8 indices */
     while(compteur <=7){
         int index_x = rand() % 4;
         int index_y = rand() % 4;
-        if((mask.grid[index_x][index_y] != 1) && (mask.grid[index_x][index_y] != 0)){
-            mask.grid[index_x][index_y] = grid.grid[index_x][index_y];
+        if((mask->grid[index_x][index_y] != 1) && (mask->grid[index_x][index_y] != 0)){
+            mask->grid[index_x][index_y] = grid.grid[index_x][index_y];
             compteur +=1;
         }
     }
     /* print du mask */
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
-            if(mask.grid[i][j] == 2){
+            if(mask->grid[i][j] == 2){
                 printf(" .");
             }
             else{
-                printf(" %d",mask.grid[i][j]);
+                printf(" %d",mask->grid[i][j]);
             }
         }
         printf("\n");
     }
     /* verif mask */
-    int a =verif_mask(mask);
-}
-struct grille clear_grid(struct grille grid){
+    int a =verif_mask(*mask);
+    printf("apres");
+    return a;
+    }
+struct grille clear_grid(struct grille* grid){
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
-            grid.grid[i][j] = 2;
+            grid->grid[i][j] = 2;
         }
     }
-    return grid;
-
 }
 int verif_mask(struct grille grid){
-    int result =0;
+    int result =0,result2= 0;
     struct grille* ptr;
-    while(result == 0){
-        print1(grid);
+    ptr = &grid;
+    printf("\n%d\n", ptr->grid[0][0]);
+    while (result == 0) {
+        print1(*ptr);
         sleep(1);
         result = clue(ptr);
     }
     printf("\n---------\n");
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
-            if(grid.grid[i][j] == 2){
-                printf(" .");
-            }
-            else{
-                printf(" %d", grid.grid[i][j]);
-            }
-        }
-        printf("\n");
-    }
-    return 0;
+    result2 = compare_grid(grid, ptr);
+    return result2;
 }
 int clue(struct grille* grid){
-    int cpt_c=0,cpt_c0=0,compteur=0,compteur0=0;
+    int cpt_c=0;
+    int cpt_c0=0;
+    int compteur=0;
+    int compteur0=0;
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
             if(grid->grid[i][j] == 1){
@@ -430,20 +429,24 @@ int clue(struct grille* grid){
             if(grid->grid[i][j] == 0){
                 compteur0 +=1;
             }
-            if((grid->grid[i][j] == grid->grid[i][j+1]) && (j<2) && (grid->grid[i][j] != 2) ) {
+            if((grid->grid[i][j] == grid->grid[i][j+1]) && (j<2) && (grid->grid[i][j] != 2) && (grid->grid[i][j+2] == 2) ) {
                 grid->grid[i][j+2] = (grid->grid[i][j] +1) %2;
+                printf("11");
                 return 0;
             }
-            if((grid->grid[i][j] == grid->grid[i][j-1]) && (j>2) && (grid->grid[i][j] != 2) ) {
+            if((grid->grid[i][j] == grid->grid[i][j-1]) && (j>2) && (grid->grid[i][j] != 2)&& (grid->grid[i][j-2] == 2) ) {
                 grid->grid[i][j-2] = (grid->grid[i][j] +1) %2;
+                printf("12");
                 return 0;
             }
-            if((grid->grid[i][j] == grid->grid[i+1][j]) && (i<2) && (grid->grid[i][j] != 2) ){
+            if((grid->grid[i][j] == grid->grid[i+1][j]) && (i<2) && (grid->grid[i][j] != 2) && (grid->grid[i+2][j] == 2)){
                 grid->grid[i+2][j] = (grid->grid[i][j] +1)% 2;
+                printf("13");
                 return 0;
             }
-            if((grid->grid[i][j] == grid->grid[i-1][j]) && (i>2) && (grid->grid[i][j] != 2) ){
+            if((grid->grid[i][j] == grid->grid[i-1][j]) && (i>2) && (grid->grid[i][j] != 2)&& (grid->grid[i-2][j] == 2) ){
                 grid->grid[i-2][j] = (grid->grid[i][j] +1)% 2;
+                printf("14");
                 return 0;
             }
         }
@@ -455,7 +458,7 @@ int clue(struct grille* grid){
                 }
             }
         }
-        else if(compteur0 == 2){
+        if(compteur0 == 2){
             for(int j=0;j<4;j++){
                 if(grid->grid[i][j] == 2){
                     grid->grid[i][j] = 1;
@@ -463,6 +466,8 @@ int clue(struct grille* grid){
                 }
             }
         }
+        compteur=0;
+        compteur0=0;
     }
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -481,7 +486,7 @@ int clue(struct grille* grid){
                 }
             }
         }
-        else if(cpt_c0 == 2){
+        if(cpt_c0 == 2){
             for(int j=0;j<4;j++){
                 if(grid->grid[j][i] == 2){
                     grid->grid[j][i] = 1;
@@ -489,12 +494,15 @@ int clue(struct grille* grid){
                 }
             }
         }
+        cpt_c=0;
+        cpt_c0=0;
     }
+    printf("j'ai fini");
     return 1;
 }
 void print1(struct grille grid){
+    clear();
     for(int i=0;i<4;i++){
-        printf("\n");
         for(int j=0;j<4;j++){
             if(grid.grid[i][j] == 2){
                 printf(" .");
@@ -505,4 +513,15 @@ void print1(struct grille grid){
         }
         printf("\n");
     }
+}
+int compare_grid(struct grille grid , struct grille* grille){
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            if(grid.grid[i][j] != grille->grid[i][j]){
+                return 0;
+            }
+        }
+    }
+    return 1;
+
 }

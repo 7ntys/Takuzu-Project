@@ -27,7 +27,7 @@ int chose_size();
 int check_grid(int n);
 int test(int n, int grid[4][4] );
 int generate_row();
-int indice(int n,grid[n][n]);
+int indice(int n,int grid[4][4]);
 void print(grid[4][4]);
 int* array1(int grid[4][4],int* pointeur);
 int verification(int grid[4][4]);

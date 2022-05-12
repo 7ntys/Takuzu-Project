@@ -69,18 +69,19 @@ void solve_grid(){
     struct grille* mask ;
     mask = (struct grille*) malloc(sizeof(struct grille));
     int result=0;
-    do{
+    while(result ==0) {
         grid = generate_grid();
         clear();
-        for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
-                printf("%d",grid.grid[i][j]);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                printf("%d", grid.grid[i][j]);
             }
             printf("\n");
         }
-        result =generate_mask(grid , mask);
+        result = generate_mask(grid, mask);
+        printf("on print result :%d", result);
     }
-    while(result ==0);
+    print1(*mask);
 }
 void automatic_solve(){
     clear();
@@ -391,7 +392,7 @@ int generate_mask(struct grille grid, struct grille* mask){
     }
     /* verif mask */
     int a =verif_mask(*mask);
-    printf("apres");
+    printf("on print a :%d", a);
     return a;
     }
 struct grille clear_grid(struct grille* grid){
@@ -408,11 +409,12 @@ int verif_mask(struct grille grid){
     printf("\n%d\n", ptr->grid[0][0]);
     while (result == 0) {
         print1(*ptr);
-        sleep(1);
+        //sleep(1);
         result = clue(ptr);
     }
     printf("\n---------\n");
     result2 = compare_grid(grid, ptr);
+    printf("on print result %d", result2);
     return result2;
 }
 int clue(struct grille* grid){
@@ -514,9 +516,13 @@ void print1(struct grille grid){
     }
 }
 int compare_grid(struct grille grid , struct grille* grille){
+    print1(grid);
+    printf("-------p");
+    print1(*grille);
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
             if(grid.grid[i][j] != grille->grid[i][j]){
+                printf("bonsoir");
                 return 0;
             }
         }

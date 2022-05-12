@@ -11,7 +11,7 @@ void intro() {
            "\n Thank you for using this program and we hope you'll like it"
            "\n                 ©Aladdi-Team 2022\n");
     printf("-------------------------------------------------------------------------------------");
-    sleep(4);
+    sleep(1);
     clear();
 }
 int menu(){
@@ -203,7 +203,7 @@ int test(int n, int grid[4][4]){
 
 
     }
-int indice(int n ,grid[4][4]) {
+int indice(int n ,int grid[4][4]) {
     int array[4] = {0, 0, 0, 0};
     for (int i = 2; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -244,9 +244,14 @@ int indice(int n ,grid[4][4]) {
             grid[3][i] = 0;
         }
     }
+    for(int x=0;x<4;x++){
+        if( grid[3][x] == 2){
+            grid[3][x] =0;
+        }
+    }
     print(grid);
 }
-void print(grid[4][4]){
+void print(int grid[4][4]){
     clear();
     printf("\n--------------PRINT-----------------\n");
     for(int i =0;i<4;i++){
@@ -272,7 +277,7 @@ int* array1(int grid[4][4],int* pointeur){
 
     return pointeur;
 }
-int verification(grid[4][4]) {
+int verification(int grid[4][4]) {
     int similarity = 0;
     int *p;
     int nombre[4] = {0,0,0,0};
@@ -329,7 +334,7 @@ int verification(grid[4][4]) {
     }
 
 }
-int conversion_binaire(array[]){
+int conversion_binaire(int array[]){
     int nombre=0;
     for(int i=0;i<4;i++){
         if(array[i] == 1){
@@ -338,7 +343,7 @@ int conversion_binaire(array[]){
     }
     return nombre;
 }
-void recup_ligne(grid[4][4],int i,int* a){
+void recup_ligne(int grid[4][4],int i,int* a){
     for(int n=0;n<4;n++){
         a[n] = grid[i][n];
     }
@@ -348,13 +353,35 @@ void clear_ligne(int array[4]){
         array[i] =0;
     }
 }
-void recup_column(grid[4][4],int i,int* a){
+void recup_column(int grid[4][4],int i,int* a){
     for(int n=0;n<4;n++){
         a[n] = grid[n][i];
     }
 }
 struct grille generate_mask(struct grille grid){
+    printf("ca rentre");
     struct grille mask;
-    int index_x = rand() % 4;
-    int index_y = rand() % 4;
+    mask = clear_grid(mask);
+    for(int i=0;i<8;i++){
+        int index_x = rand() % 4;
+        int index_y = rand() % 4;
+        if(mask.grid[index_x][index_y] != 1){
+            mask.grid[index_x][index_y] = grid.grid[index_x][index_y];
+        }
+    }
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            printf("%d",mask.grid[i][j]);
+        }
+        printf("\n");
+    }
+}
+struct grille clear_grid(struct grille grid){
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            grid.grid[i][j] =0;
+        }
+    }
+    return grid;
+
 }

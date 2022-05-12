@@ -35,4 +35,5 @@ int conversion_binaire(int array[4]);
 void recup_ligne(int grid[4][4] , int i, int* a);
 void clear_ligne(int array[4]);
 void recup_column(int grid[4][4],int i ,int* a);
-struct grille generate_mask();
+struct grille generate_mask(struct grille grid);
+struct grille clear_grid(struct grille grid);

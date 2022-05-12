@@ -81,7 +81,6 @@ void solve_grid(){
         result =generate_mask(grid , mask);
     }
     while(result ==0);
-    printf("Lets go");
 }
 void automatic_solve(){
     clear();

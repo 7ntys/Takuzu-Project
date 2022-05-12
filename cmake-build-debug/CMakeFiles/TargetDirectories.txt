@@ -1,3 +1,0 @@
-C:/Users/datha/CLionProjects/Takuzu-Project/cmake-build-debug/CMakeFiles/Takuzu_Project.dir
-C:/Users/datha/CLionProjects/Takuzu-Project/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/datha/CLionProjects/Takuzu-Project/cmake-build-debug/CMakeFiles/rebuild_cache.dir

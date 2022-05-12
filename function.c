@@ -65,14 +65,35 @@ void sleep(int seconds) {
 }
 void solve_grid(){
     clear();
+    struct grille grid ;
+    grid = generate_grid();
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            printf("%d",grid.grid[i][j]);
+        }
+        printf("\n");
+    }
+
+
+
 }
 void automatic_solve(){
     clear();
 }
-void generate_grid(){
+struct grille generate_grid(){
     int size = chose_size();
-    test(4);
+    int grid[4][4];
+    while(test(size,grid) == 0){
+        test(size,grid);
+    }
+    struct grille test;
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            test.grid[i][j] = grid[i][j];
+        }
+    }
     printf("oui");
+    return test;
 }
 int chose_size(){
     int answer;
@@ -91,10 +112,9 @@ int chose_size(){
     }
     return answer;
 }
-int test(int n){
+int test(int n, int grid[4][4]){
     /* each row should be considered as a binary code from 0 to 15 */
     /*generation of the grid */
-    int grid[4][4];
     int compteur = 0;
     int nombre_1 = 0;
     int j =0;
@@ -165,11 +185,20 @@ int test(int n){
                 grid[a+1][i] = 2;
             }
             indice(n,grid);
+            if(verification(grid)==0){
+                return 0;
+            }
+            else{
+                printf("\nLa grille est valide ");
+                return 1;
+
+            }
+
         }
         }
     print(grid);
     if(nombre_1 !=2 ){
-        test(4);
+        test(4 , grid);
     }
 
 
@@ -216,9 +245,6 @@ int indice(int n ,grid[4][4]) {
         }
     }
     print(grid);
-    if(verification(grid)==0){
-        test(4);
-    }
 }
 void print(grid[4][4]){
     clear();
@@ -294,7 +320,7 @@ int verification(grid[4][4]) {
             }
         }
         if(similarity==1){
-            test(4);
+            test(4,grid);
         }
         else{
             return 1;
@@ -326,4 +352,9 @@ void recup_column(grid[4][4],int i,int* a){
     for(int n=0;n<4;n++){
         a[n] = grid[n][i];
     }
+}
+struct grille generate_mask(struct grille grid){
+    struct grille mask;
+    int index_x = rand() % 4;
+    int index_y = rand() % 4;
 }

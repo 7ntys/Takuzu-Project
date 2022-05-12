@@ -39,7 +39,7 @@ CMAKE_CODEBLOCKS_MAKE_ARGUMENTS:STRING=
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
 //C compiler
-CMAKE_C_COMPILER:STRING=C:/Program Files/JetBrains/CLion 2021.3.4/bin/mingw/bin/gcc.exe
+CMAKE_C_COMPILER:FILEPATH=C:/Program Files/JetBrains/CLion 2021.3.4/bin/mingw/bin/gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler

@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Takuzu_Project::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Takuzu_Project-Debug-41197e3a10664c513eee.json",
+					"jsonFile" : "target-Takuzu_Project-Debug-a84b97441b45acdff65d.json",
 					"name" : "Takuzu_Project",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/julienleber/CLION C project/Takuzu-Project/cmake-build-debug",
-		"source" : "/Users/julienleber/CLION C project/Takuzu-Project"
+		"build" : "/Users/julienleber/CLION C project/Takuzu-Project1/cmake-build-debug",
+		"source" : "/Users/julienleber/CLION C project/Takuzu-Project1"
 	},
 	"version" : 
 	{

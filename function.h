@@ -37,3 +37,6 @@ void clear_ligne(int array[4]);
 void recup_column(int grid[4][4],int i ,int* a);
 struct grille generate_mask(struct grille grid);
 struct grille clear_grid(struct grille grid);
+int verif_mask(struct grille grid);
+int clue(struct grille* grid);
+void print1(struct grille grid);

@@ -31,7 +31,7 @@ int check_grid(int n);
 int test(int n, int grid[4][4] );
 int generate_row();
 int indice(int n,int grid[4][4]);
-void print(grid[4][4]);
+void print(struct grille grid);
 int* array1(int grid[4][4],int* pointeur);
 int verification(struct grille grid, int size);
 int conversion_binaire(int* array, int size);

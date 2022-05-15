@@ -358,12 +358,12 @@ int indice(int n ,int grid[4][4]) {
     }
     //print(grid);
 }
-void print(int grid[4][4]){
+void print(struct grille grid){
     clear();
     printf("\n--------------PRINT-----------------\n");
     for(int i =0;i<4;i++){
         for(int j=0;j<4;j++){
-            printf("%d",grid[i][j]);
+            printf("%d",grid.grid[i][j]);
         }
         printf("\n");
     }
@@ -645,7 +645,6 @@ int compare_grid(struct grille grid , struct grille* grille){
         }
     }
     return 1;
-
 }
 void move(struct grille grid , struct grille* mask, int* ptr_lives){
     int x =-1;

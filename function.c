@@ -536,6 +536,7 @@ int verification2(struct grille grid, int size) {
                     similarity = 1;
                 }
             }
+
         }
         if(similarity==1){
             return 0;

@@ -42,9 +42,16 @@ int menu(){
         printf("%d",answer);
         automatic_solve();
     }
-    else if(answer == 4){
+    else if(answer == 4) {
         struct grille grad1;
         grad1 = real_grid(1);
+        printf("\n----------8X8----------\n");
+        for (int c = 0; c < 8; c++) {
+            for (int e = 0; e < 8; e++) {
+                printf("%d ", grad1.grad[c][e]);
+            }
+            printf("\n");
+        }
     }
     else{
         printf("%d",answer);
@@ -357,26 +364,30 @@ void print(struct grille grid){
     }
     printf("\n--------------------------------\n");
 }
-struct grille real_grid(n){
+struct grille real_grid(int n){
     int rep = 1;
     int validity = 0;
+    int borne1 = 0;
+    int borne2 = 8;
     struct grille grad1;
     while (validity != 1) {
         if (n == 0) {
             grad1 = generate_grad();
+            borne1 = 2;
+            borne2 = 4;
         }
-        else {
-            grad1 = generate_grad();
+        if (n == 1) {
+            grad1 = maxence();
         }
         validity = 1;
         for (int x = 0;x < 8;x++) {
-            for (int y = 2; y < 4; y++) {
+            for (int y = borne1; y < borne2; y++) {
                 if ((grad1.grad[x][y] == grad1.grad[x][y+1]) && (grad1.grad[x][y] == grad1.grad[x][y+2]) && (validity == 1)){
                     validity = 0;
                 }
             }
         }
-        for (int x = 2;x < 4;x++) {
+        for (int x = borne1;x < borne2;x++) {
             for (int y = 0; y < 8; y++) {
                 if ((grad1.grad[x][y] == grad1.grad[x + 1][y]) && (grad1.grad[x][y] == grad1.grad[x + 2][y]) && (validity == 1)) {
                     validity = 0;
@@ -779,30 +790,30 @@ struct grille generate_grad(){
 
 
 };
-struct grille maxence(){
+struct grille maxence() {
     struct grille grad1;
     int line[20][8] =
             {
-            {0,0,1,1,0,0,1,1},
-            {0,1,1,0,1,1,0,0},
-            {1,1,0,0,1,0,1,0},
-            {1,0,0,1,0,0,1,1},
-            {0,0,1,1,0,1,0,1},
-            {1,1,0,0,1,1,0,0},
-            {1,0,1,0,1,0,1,0},
-            {0,1,0,1,0,0,1,1},
-            {0,0,1,1,0,1,1,0},
-            {0,1,0,1,0,1,1,0},
-            {1,0,0,1,1,0,0,1},
-            {1,0,1,0,0,1,1,0},
-            {1,0,0,1,0,1,0,1},
-            {0,1,1,0,1,0,1,0},
-            {0,1,1,0,1,0,1,0},
-            {0,1,0,1,1,0,0,1},
-            {1,0,0,1,0,1,0,1},
-            {0,1,1,0,1,0,0,1},
-            {0,1,0,1,0,1,0,1},
-            {1,0,0,1,0,1,1,0}
+                    {0, 0, 1, 1, 0, 0, 1, 1},
+                    {0, 1, 1, 0, 1, 1, 0, 0},
+                    {1, 1, 0, 0, 1, 0, 1, 0},
+                    {1, 0, 0, 1, 0, 0, 1, 1},
+                    {0, 0, 1, 1, 0, 1, 0, 1},
+                    {1, 1, 0, 0, 1, 1, 0, 0},
+                    {1, 0, 1, 0, 1, 0, 1, 0},
+                    {0, 1, 0, 1, 0, 0, 1, 1},
+                    {0, 0, 1, 1, 0, 1, 1, 0},
+                    {0, 1, 0, 1, 0, 1, 1, 0},
+                    {1, 0, 0, 1, 1, 0, 0, 1},
+                    {1, 0, 1, 0, 0, 1, 1, 0},
+                    {1, 0, 0, 1, 0, 1, 0, 1},
+                    {0, 1, 1, 0, 1, 0, 1, 0},
+                    {0, 1, 1, 0, 1, 0, 1, 0},
+                    {0, 1, 0, 1, 1, 0, 0, 1},
+                    {1, 0, 0, 1, 0, 1, 0, 1},
+                    {0, 1, 1, 0, 1, 0, 0, 1},
+                    {0, 1, 0, 1, 0, 1, 0, 1},
+                    {1, 0, 0, 1, 0, 1, 1, 0}
             };
     int random[8];
     int ok = 0;
@@ -821,17 +832,11 @@ struct grille maxence(){
             }
         }
     }
-    printf("-------8X8-------\n");
-    for(int c = 0;c < 8;c++){
-        for(int e = 0;e < 8;e++){
+
+    for (int c = 0; c < 8; c++) {
+        for (int e = 0; e < 8; e++) {
             grad1.grad[c][e] = line[random[c]][e];
-            printf("%d ",grad1.grad[c][e]);
         }
-        printf("\n");
-
-
-
     }
     return grad1;
-    }
-
+}

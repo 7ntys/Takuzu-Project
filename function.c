@@ -114,7 +114,7 @@ void automatic_solve(){
     struct grille mask;
     while(verif ==0){
         clear();
-        grid = generate_grid();
+        grid = generate_grid(0);
         verif = generate_mask(grid,&mask);
     }
     clear();
@@ -359,12 +359,12 @@ int indice(int n ,int grid[4][4]) {
     }
     //print(grid);
 }
-void print(int grid[4][4]){
+void print(struct grille grid){
     clear();
     printf("\n--------------PRINT-----------------\n");
     for(int i =0;i<4;i++){
         for(int j=0;j<4;j++){
-            printf("%d",grid[i][j]);
+            printf("%d",grid.grid[i][j]);
         }
         printf("\n");
     }
@@ -647,7 +647,6 @@ int compare_grid(struct grille grid , struct grille* grille){
         }
     }
     return 1;
-
 }
 void move(struct grille grid , struct grille* mask, int* ptr_lives){
     int x =-1;
@@ -706,8 +705,6 @@ void convert(int grid[4][4], struct grille* grid1){
             grid1->grid[i][j] = grid[i][j];
         }
     }
-}
-
 }
 struct grille generate_grad(){
     struct grille grid1;

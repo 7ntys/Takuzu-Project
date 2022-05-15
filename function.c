@@ -75,7 +75,7 @@ void solve_grid(){
     mask = (struct grille*) malloc(sizeof(struct grille));
     int result=0;
     while(result ==0) {
-        grid = generate_grid(0);
+        grid = generate_grid(4);
         clear();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -114,7 +114,7 @@ void automatic_solve(){
     struct grille mask;
     while(verif ==0){
         clear();
-        grid = generate_grid(0);
+        grid = generate_grid(4);
         verif = generate_mask(grid,&mask);
     }
     clear();
@@ -193,6 +193,7 @@ struct grille generate_grid(int ask){
     else if(ask == 4){
         int grid[4][4];
         while (test(1, grid) == 0) {
+            printf("\n");
             test(1, grid);
         }
         struct grille test;
@@ -296,7 +297,7 @@ int test(int n, int grid[4][4]){
             }
             else{
                 printf("\n");
-
+                print1(grid1);
                 return 1;
 
             }
@@ -358,12 +359,12 @@ int indice(int n ,int grid[4][4]) {
     }
     //print(grid);
 }
-void print(struct grille grid){
+void print(int grid[4][4]){
     clear();
     printf("\n--------------PRINT-----------------\n");
     for(int i =0;i<4;i++){
         for(int j=0;j<4;j++){
-            printf("%d",grid.grid[i][j]);
+            printf("%d",grid[i][j]);
         }
         printf("\n");
     }
@@ -744,12 +745,14 @@ struct grille generate_grad(){
     }
     //-validité
     if(verification(grad1,8) == 0){
-        printf("grille nn valide");
+        printf("grille nn valide\n");
+        generate_grad();
     }
     else{
-        printf("grille valide");
+        printf("grille valide\n");
     }
     //-validité
+    printf("\n");
     for (int x = 0;x < 8;x++) {
         for (int y = 0; y < 8; y++) {
             printf("%d ", grad1.grad[x][y]);

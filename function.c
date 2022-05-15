@@ -22,7 +22,7 @@ int menu(){
            "3 : Generate a Grid\n"
             );
     scanf("%d",&answer);
-    while(answer < 1 || answer > 3){
+    while(answer < 1 || answer > 4){
         clear();
         printf("Error you entered a wrong integer\n"
                "Chose the game mode you'll like to play by entering the integer corresponding\n"
@@ -41,6 +41,17 @@ int menu(){
     else if(answer==2){
         printf("%d",answer);
         automatic_solve();
+    }
+    else if(answer == 4) {
+        struct grille grad1;
+        grad1 = real_grid(1);
+        printf("\n----------8X8----------\n");
+        for (int c = 0; c < 8; c++) {
+            for (int e = 0; e < 8; e++) {
+                printf("%d ", grad1.grad[c][e]);
+            }
+            printf("\n");
+        }
     }
     else{
         printf("%d",answer);
@@ -158,35 +169,24 @@ struct grille generate_grid(int ask){
                     test.grid[i][j] = grid[i][j];
                 }
             }
-            print(grid);
+            print(test);
             return test;
         } else if (size == 2) {
-            int rep = 1;
-            int validity = 0;
-            while (validity != 1) {
-                struct grille grad1 = generate_grad();
-                validity = 1;
-                for (int x = 0;x < 8;x++) {
-                    for (int y = 2; y < 4; y++) {
-                        if ((grad1.grad[x][y] == grad1.grad[x][y+1]) && (grad1.grad[x][y] == grad1.grad[x][y+2])){
-                            validity = 0;
-                        }
-                    }
-                }
-                for (int x = 2;x < 4;x++) {
-                    for (int y = 0; y < 8; y++) {
-                        if ((grad1.grad[x][y] == grad1.grad[x + 1][y]) && (grad1.grad[x][y] == grad1.grad[x + 2][y])) {
-                            validity = 0;
-                        }
-                    }
-                }
+            struct grille grad1 = real_grid(0);
+            printf(" \n");
+            for (int x = 0;x < 8;x++) {
+                for (int y = 0; y < 8; y++) {
+                    printf("%d ", grad1.grad[x][y]);
 
-
-                rep++;
+                }
+                printf(" \n");
             }
-            printf("Le nombre de tour de boucle est de %d",rep);
-            struct grille grid1;
-            return grid1;
+
+
+
+
+            //struct grille grid1;
+            return grad1;
 
         }
     }
@@ -369,6 +369,42 @@ void print(struct grille grid){
     }
     printf("\n--------------------------------\n");
 }
+struct grille real_grid(int n){
+    int rep = 1;
+    int validity = 0;
+    int borne1 = 0;
+    int borne2 = 8;
+    struct grille grad1;
+    while (validity != 1) {
+        if (n == 0) {
+            grad1 = generate_grad();
+            borne1 = 2;
+            borne2 = 4;
+        }
+        if (n == 1) {
+            grad1 = maxence();
+        }
+        validity = 1;
+        for (int x = 0;x < 8;x++) {
+            for (int y = borne1; y < borne2; y++) {
+                if ((grad1.grad[x][y] == grad1.grad[x][y+1]) && (grad1.grad[x][y] == grad1.grad[x][y+2]) && (validity == 1)){
+                    validity = 0;
+                }
+            }
+        }
+        for (int x = borne1;x < borne2;x++) {
+            for (int y = 0; y < 8; y++) {
+                if ((grad1.grad[x][y] == grad1.grad[x + 1][y]) && (grad1.grad[x][y] == grad1.grad[x + 2][y]) && (validity == 1)) {
+                    validity = 0;
+                }
+            }
+        }
+        rep++;
+    }
+    printf("Le nombre de tour de boucle est de %d",rep);
+    return grad1;
+
+}
 int* array1(int grid[4][4],int* pointeur){
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -471,7 +507,7 @@ int generate_mask(struct grille grid, struct grille* mask){
     printf("ici");
     int compteur=0;
     /* On genere un masque avec x indices */
-    int x = 2;
+    int x = 3;
     x += (rand()%4)+1;
     while(compteur <=x){
         int index_x = rand() % 4;
@@ -719,7 +755,6 @@ struct grille generate_grad(){
     grid3 = generate_grid(4);
     printf(" --------Grille 4 --------");
     grid4 = generate_grid(4);
-    printf("----------Grille 8x8----------\n");
     for (int x = 0;x < 8;x++){
         for (int y = 0;y < 8;y++) {
 
@@ -763,3 +798,53 @@ struct grille generate_grad(){
 
 
 };
+struct grille maxence() {
+    struct grille grad1;
+    int line[20][8] =
+            {
+                    {0, 0, 1, 1, 0, 0, 1, 1},
+                    {0, 1, 1, 0, 1, 1, 0, 0},
+                    {1, 1, 0, 0, 1, 0, 1, 0},
+                    {1, 0, 0, 1, 0, 0, 1, 1},
+                    {0, 0, 1, 1, 0, 1, 0, 1},
+                    {1, 1, 0, 0, 1, 1, 0, 0},
+                    {1, 0, 1, 0, 1, 0, 1, 0},
+                    {0, 1, 0, 1, 0, 0, 1, 1},
+                    {0, 0, 1, 1, 0, 1, 1, 0},
+                    {0, 1, 0, 1, 0, 1, 1, 0},
+                    {1, 0, 0, 1, 1, 0, 0, 1},
+                    {1, 0, 1, 0, 0, 1, 1, 0},
+                    {1, 0, 0, 1, 0, 1, 0, 1},
+                    {0, 1, 1, 0, 1, 0, 1, 0},
+                    {0, 1, 1, 0, 1, 0, 1, 0},
+                    {0, 1, 0, 1, 1, 0, 0, 1},
+                    {1, 0, 0, 1, 0, 1, 0, 1},
+                    {0, 1, 1, 0, 1, 0, 0, 1},
+                    {0, 1, 0, 1, 0, 1, 0, 1},
+                    {1, 0, 0, 1, 0, 1, 1, 0}
+            };
+    int random[8];
+    int ok = 0;
+    while (ok != 1) {
+        ok = 1;
+        for (int i = 0; i < 8; i++) {
+            random[i] = rand() % 20;
+        }
+        for (int w = 0; w < 8; w++) {
+            for (int x = 0; x < 8; x++) {
+                if (random[w] == random[x] && (x != w)) {
+                    ok = 0;
+
+
+                }
+            }
+        }
+    }
+
+    for (int c = 0; c < 8; c++) {
+        for (int e = 0; e < 8; e++) {
+            grad1.grad[c][e] = line[random[c]][e];
+        }
+    }
+    return grad1;
+}

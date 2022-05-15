@@ -15,7 +15,9 @@ struct grille{
     int grad[8][8];
 };
 
-
+struct combo{
+    int grid[19][8];
+};
 
 
 struct grille generate_grad();
@@ -48,3 +50,5 @@ void print_solve(struct grille grid);
 void move(struct grille grid, struct grille* mask, int* ptr_lives);
 int is_mask_completed(struct grille grid,struct grille mask);
 void convert(int grid[4][4], struct grille* grid1);
+struct grille real_grid(int n);
+struct grille maxence();

@@ -291,7 +291,9 @@ int test(int n, int grid[4][4]){
                 grid[a+1][i] = 2;
             }
             indice(n,grid);
-            if(verification(grid)==0){
+            struct grille grid1;
+            convert(grid,&grid1);
+            if(verification(grid1)==0){
                 return 0;
             }
             else{
@@ -383,22 +385,23 @@ int* array1(int grid[4][4],int* pointeur){
 
     return pointeur;
 }
-int verification(int grid[4][4]) {
+int verification(struct grille grid) {
+    int size =4;
     int similarity = 0;
     int *p;
-    int nombre[4] = {0,0,0,0};
+    int* nombre = (int *)malloc(size*(sizeof (int)));
     /*On recupere chaque ligne de notre grid, l'isole, la transforme en binaire et la stock dans l'array nombre[]
      * puis on compare tout les nombres pour savoir si les lignes sont uniques */
-    for(int i=0;i<4;i++){
-        int ligne[4] ={0,0,0,0};
+    for(int i=0;i<size;i++){
+        int* ligne = (int *)malloc(size*(sizeof (int)));
         int* a =ligne;
         //pour les lignes :
-        recup_ligne(grid,i,a);
-        nombre[i] = conversion_binaire(ligne);
-        clear_ligne(a);
+        recup_ligne(grid,i,a,size);
+        nombre[i] = conversion_binaire(ligne,size);
+        clear_ligne(a,size);
     }
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
+    for(int i=0;i<size;i++){
+        for(int j=0;j<size;j++){
             if(nombre[i] == nombre[j] && i!=j){
                 similarity = 1;
             }
@@ -410,28 +413,28 @@ int verification(int grid[4][4]) {
     else{
         /*On verifie maintenant de la meme maniere si les columns sont toutes uniques*/
         /*On clear l'array nombre*/
-        for(int i=0;i<4;i++){
+        for(int i=0;i<size;i++){
             nombre[i]= 0;
         }
-        for(int i=0;i<4;i++){
-            int ligne[4] ={0,0,0,0};
+        for(int i=0;i<size;i++){
+            int* ligne = (int *)malloc(size*(sizeof (int)));
             int* a =ligne;
             //pour les columns :
-            recup_column(grid,i,a);
-            nombre[i] = conversion_binaire(ligne);
-            clear_ligne(a);
+            recup_column(grid,i,a,size);
+            nombre[i] = conversion_binaire(ligne,size);
+            clear_ligne(a,size);
         }
         /*On verifie que tout les nombres binaires sont uniques */
         similarity =0;
-        for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
+        for(int i=0;i<size;i++){
+            for(int j=0;j<size;j++){
                 if(nombre[i] == nombre[j] && i!=j){
                     similarity = 1;
                 }
             }
         }
         if(similarity==1){
-            test(4,grid);
+            test(4,grid.grid);
         }
         else{
             return 1;
@@ -440,28 +443,28 @@ int verification(int grid[4][4]) {
     }
 
 }
-int conversion_binaire(int array[]){
+int conversion_binaire(int* array , int size){
     int nombre=0;
-    for(int i=0;i<4;i++){
+    for(int i=0;i<size;i++){
         if(array[i] == 1){
             nombre += pow(2,(3-i));
         }
     }
     return nombre;
 }
-void recup_ligne(int grid[4][4],int i,int* a){
-    for(int n=0;n<4;n++){
-        a[n] = grid[i][n];
+void recup_ligne(struct grille grid,int i,int* a , int size){
+    for(int n=0;n<size;n++){
+        a[n] = grid.grid[i][n];
     }
 }
-void clear_ligne(int array[4]){
-    for(int i=0;i<4;i++){
+void clear_ligne(int* array , int size){
+    for(int i=0;i<size;i++){
         array[i] =0;
     }
 }
-void recup_column(int grid[4][4],int i,int* a){
-    for(int n=0;n<4;n++){
-        a[n] = grid[n][i];
+void recup_column(struct grille grid,int i,int* a, int size){
+    for(int n=0;n<size;n++){
+        a[n] = grid.grid[n][i];
     }
 }
 int generate_mask(struct grille grid, struct grille* mask){
@@ -469,8 +472,10 @@ int generate_mask(struct grille grid, struct grille* mask){
     clear_grid(mask);
     printf("ici");
     int compteur=0;
-    /* On genere un masque avec 8 indices */
-    while(compteur <=7){
+    /* On genere un masque avec x indices */
+    int x = 2;
+    x += (rand()%4)+1;
+    while(compteur <=x){
         int index_x = rand() % 4;
         int index_y = rand() % 4;
         if((mask->grid[index_x][index_y] != 1) && (mask->grid[index_x][index_y] != 0)){
@@ -694,6 +699,13 @@ int is_mask_completed(struct grille grid,struct grille mask){
         }
     }
     return 1;
+}
+void convert(int grid[4][4], struct grille* grid1){
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            grid1->grid[i][j] = grid[i][j];
+        }
+    }
 }
 
 }

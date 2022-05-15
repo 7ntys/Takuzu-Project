@@ -20,6 +20,7 @@ int menu(){
            "1 : Solve a grid \n"
            "2 : Solve automatically a grid \n"
            "3 : Generate a Grid\n"
+           "4 : For our way to generate a 8x8 grid\n"
     );
     scanf("%d",&answer);
     while(answer < 1 || answer > 4){
@@ -29,6 +30,7 @@ int menu(){
                "1 : Solve a grid \n"
                "2 : Solve automatically a grid \n"
                "3 : Generate a Grid\n"
+               "4 : For our way to generate a 8x8 grid\n"
         );
         scanf("%d",&answer);
     }
@@ -57,8 +59,13 @@ int menu(){
         printf("%d",answer);
         struct grille temp;
         temp = generate_grid(0);
-        printf("\n");
-        sleep(5);
+        printf("\n----------8X8----------\n");
+        for (int c = 0; c < 8; c++) {
+            for (int e = 0; e < 8; e++) {
+                printf("%d ", temp.grad[c][e]);
+            }
+            printf("\n");
+        }
         clear();
         menu();
     }
@@ -90,13 +97,6 @@ void solve_grid(){
         while(result ==0) {
             size=4;
             grid = generate_grid(4);
-            clear();
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size; j++) {
-                    printf("%d", grid.grid[i][j]);
-                }
-                printf("\n");
-            }
             result = generate_mask(grid, mask,size);
         }
     }
@@ -139,42 +139,67 @@ void automatic_solve(){
             clear();
             grid = generate_grid(0);
             verif = generate_mask(grid,&mask, size);
+            clear();
+            printf("The computer has this mask : \n");
+            print1(mask);
+            printf("He has to resolve it\n");
+            printf("\n");
+            sleep(3);
+            float temp_exec;
+            clock_t t1,t2;
+            clear();
+            t1 = clock();
+            int steps =0;
+            while(clue2(&mask,size) == 0){
+                steps ++;
+                clear();
+                printf("Number of steps : %d\n", steps);
+                print1(mask);
+                printf("\n");
+                //sleep(2);
+            }
+            t2 = clock();
+            temp_exec = (float)((t2-t1)-(steps*2))/CLOCKS_PER_SEC;
+            printf("Le programme a résolu la grille en %f seconde \n",temp_exec);
+            sleep(3);
+            printf(" \n");
+            menu();
         }
     }
     else{
         size =8;
         while(verif ==0) {
             clear();
-            grid =real_grid(0);
-            printf("OO");
+            grid = real_grid(1);
             verif = generate_mask2(grid, &mask, size);
+            clear();
+            printf("The computer has this mask : \n");
+            print2(mask);
+            printf("He has to resolve it\n");
+            printf("\n");
+            sleep(3);
+            float temp_exec;
+            clock_t t1,t2;
+            clear();
+            t1 = clock();
+            int steps =0;
+            while(clue2(&mask,size) == 0){
+                steps ++;
+                clear();
+                printf("Number of steps : %d\n", steps);
+                print2(mask);
+                printf("\n");
+                //sleep(2);
+            }
+            t2 = clock();
+            temp_exec = (float)((t2-t1)-(steps*2))/CLOCKS_PER_SEC;
+            printf("Le programme a résolu la grille en %f seconde \n",temp_exec);
+            sleep(3);
+            printf(" \n");
+            menu();
         }
     }
-    clear();
-    printf("The computer has this mask : \n");
-    print2(mask);
-    printf("He has to resolve it\n");
-    printf("\n");
-    sleep(3);
-    float temp_exec;
-    clock_t t1,t2;
-    clear();
-    t1 = clock();
-    int steps =0;
-    while(clue2(&mask,size) == 0){
-        steps ++;
-        clear();
-        printf("Number of steps : %d\n", steps);
-        print2(mask);
-        printf("\n");
-        sleep(2);
-    }
-    t2 = clock();
-    temp_exec = (float)((t2-t1)-(steps*2))/CLOCKS_PER_SEC;
-    printf("Le programme a résolu la grille en %f seconde \n",temp_exec);
-    sleep(3);
-    printf(" \n");
-    menu();
+
 
 }
 struct grille generate_grid(int ask){
@@ -193,17 +218,26 @@ struct grille generate_grid(int ask){
             }
             print(test);
             return test;
-        } else if (size == 2) {
-            struct grille grad1 = real_grid(0);
+        }
+        else if (size == 2) {
+            struct grille grad1 = real_grid(1);
             //struct grille grid1;
+            printf("\n----------8X8----------\n");
+            for (int c = 0; c < 8; c++) {
+                for (int e = 0; e < 8; e++) {
+                    printf("%d ", grad1.grad[c][e]);
+                }
+                printf("\n");
+            }
+            sleep(5);
             return grad1;
 
         }
     }
     else if(ask == 4){
         int grid[4][4];
-        while (test(1, grid) == 0) {
-            test(1, grid);
+        while (test(4, grid) == 0) {
+            test(4, grid);
         }
         struct grille test;
         convert(grid,&test);
@@ -395,10 +429,13 @@ struct grille real_grid(int n){
             grad1 = maxence();
         }
         validity = 1;
-        for (int x = 0;x < 8;x++) {
-            for (int y = borne1; y < borne2; y++) {
-                if ((grad1.grad[x][y] == grad1.grad[x][y+1]) && (grad1.grad[x][y] == grad1.grad[x][y+2]) && (validity == 1)){
-                    validity = 0;
+        if(n==0) {
+            for (int x = 0; x < 8; x++) {
+                for (int y = borne1; y < borne2; y++) {
+                    if ((grad1.grad[x][y] == grad1.grad[x][y + 1]) && (grad1.grad[x][y] == grad1.grad[x][y + 2]) &&
+                        (validity == 1)) {
+                        validity = 0;
+                    }
                 }
             }
         }
@@ -409,9 +446,17 @@ struct grille real_grid(int n){
                 }
             }
         }
-        if((verification2(grad1,8) == 0)&&(validity==1) ){
-            sleep(1);
-            validity=0;
+        if (n==1) {
+            if ((compteur_column(grad1) == 0) && (validity == 1)) {
+                //printf("rep %d",rep);
+                validity = 0;
+            }
+        }
+        if(n!=1){
+            if((verification2(grad1,8) == 0)&&(validity==1) ){
+                sleep(1);
+                validity=0;
+            }
         }
         rep++;
     }
@@ -507,9 +552,12 @@ int verification2(struct grille grid, int size) {
         clear_ligne(a,size);
     }
     for(int i=0;i<size;i++){
-        printf("%d ",nombre[i]);
+        for(int j=0;j<size;j++){
+            if ((nombre[i] == nombre[j]) && (i!=j)){
+                similarity =1;
+            }
+        }
     }
-    printf("\n");
     print2(grid);
     if(similarity==1){
         return 0;
@@ -597,7 +645,7 @@ int generate_mask(struct grille grid, struct grille* mask,int size){
     clear_grid(mask);
     int compteur=0;
     /* On genere un masque avec x indices */
-    int x = 2;
+    int x = 4;
     x += (rand()%((size*2)-4));
     while(compteur <=x){
         int index_x = rand() % size;
@@ -625,13 +673,12 @@ int generate_mask(struct grille grid, struct grille* mask,int size){
     return a;
 }
 int generate_mask2(struct grille grid, struct grille* mask,int size){
-    printf("\nca rentre\n");
     clear_grid2(mask);
-    printf("ici");
+    size=8;
     int compteur=0;
     /* On genere un masque avec x indices */
-    int x = 16;
-    x += rand()%(size*2);
+    int x = 8;
+    x += rand()%((size*2) -4);
     while(compteur <=x){
         int index_x = rand() % size;
         int index_y = rand() % size;
@@ -641,8 +688,8 @@ int generate_mask2(struct grille grid, struct grille* mask,int size){
         }
     }
     /* print du mask */
-    for(int i=0;i<size;i++){
-        for(int j=0;j<size;j++){
+    for(int i=0;i<8;i++){
+        for(int j=0;j<8;j++){
             if(mask->grad[i][j] == 2){
                 printf(" .");
             }
@@ -653,8 +700,9 @@ int generate_mask2(struct grille grid, struct grille* mask,int size){
         printf("\n");
     }
     /* verif mask */
-    int a =verif_mask2(*mask,size);
-    printf("on print a :%d", a);
+    //int a =verif_mask2(*mask,size);
+    //printf("on print a :%d", a);
+    int a=1;
     return a;
 }
 struct grille clear_grid(struct grille* grid){
@@ -680,35 +728,29 @@ int verif_mask(struct grille grid,int size){
         }
     }
     ptr = &grid;
-    printf("\n%d\n", ptr->grid[0][0]);
     while (result == 0) {
         print1(*ptr);
         //sleep(1);
         result = clue(ptr,size);
     }
-    printf("\n---------\n");
     result2 = compare_grid(grid, ptr);
-    printf("on print result %d", result2);
     return result2;
 }
 int verif_mask2(struct grille grid,int size){
     int result =0,result2= 0;
-    struct grille* ptr = (struct grille*)malloc(sizeof (struct grille));
+    struct grille* ptr;
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             ptr->grad[i][j] = grid.grad[i][j];
         }
     }
     ptr = &grid;
-    printf("\n%d\n", ptr->grad[0][0]);
     while (result == 0) {
         print1(*ptr);
-        //sleep(1);
+        sleep(1);
         result = clue2(ptr,size);
     }
-    printf("\n---------\n");
     result2 = compare_grid2(grid, ptr);
-    printf("on print result %d", result2);
     return result2;
 }
 int clue(struct grille* grid,int size){
@@ -803,15 +845,23 @@ int clue2(struct grille* grid,int size){
             if(grid->grad[i][j] == 0){
                 compteur0 +=1;
             }
-            if((grid->grad[i][j] == grid->grad[i][j+1]) && (j<2) && (grid->grad[i][j] != 2) && (grid->grad[i][j+2] == 2) ) {
+            if((grid->grad[i][j] == grid->grad[i][j+1]) && (j<6) && (grid->grad[i][j] != 2) && (grid->grad[i][j+2] == 2) ) {
                 grid->grad[i][j+2] = (grid->grad[i][j] +1) %2;
+                return 0;
+            }
+            if((grid->grad[i+1][j] == grid->grad[i-1][j]) && (i<=6)&&(i>=1)  && (grid->grad[i][j] == 2) ) {
+                grid->grad[i][j] = (grid->grad[i][j] +1) %2;
+                return 0;
+            }
+            if((grid->grad[i][j+1] == grid->grad[i][j-1]) && (j<=6)&&(j>=1)   && (grid->grad[i][j] == 2) ) {
+                grid->grad[i][j] = (grid->grad[i][j] +1) %2;
                 return 0;
             }
             if((grid->grad[i][j] == grid->grad[i][j-1]) && (j>2) && (grid->grad[i][j] != 2)&& (grid->grad[i][j-2] == 2) ) {
                 grid->grad[i][j-2] = (grid->grad[i][j] +1) %2;
                 return 0;
             }
-            if((grid->grad[i][j] == grid->grad[i+1][j]) && (i<2) && (grid->grad[i][j] != 2) && (grid->grad[i+2][j] == 2)){
+            if((grid->grad[i][j] == grid->grad[i+1][j]) && (i<6) && (grid->grad[i][j] != 2) && (grid->grad[i+2][j] == 2)){
                 grid->grad[i+2][j] = (grid->grad[i][j] +1)% 2;
                 return 0;
             }
@@ -820,7 +870,7 @@ int clue2(struct grille* grid,int size){
                 return 0;
             }
         }
-        if(compteur == (size/2)){
+        if(compteur == (4)){
             for(int j=0;j<size;j++){
                 if(grid->grad[i][j] == 2){
                     grid->grad[i][j] = 0;
@@ -828,7 +878,7 @@ int clue2(struct grille* grid,int size){
                 }
             }
         }
-        if(compteur0 == (size/2)){
+        if(compteur0 == 4){
             for(int j=0;j<size;j++){
                 if(grid->grad[i][j] == 2){
                     grid->grad[i][j] = 1;
@@ -848,7 +898,7 @@ int clue2(struct grille* grid,int size){
                 cpt_c0 +=1;
             }
         }
-        if(cpt_c == (size/2)){
+        if(cpt_c == 4){
             for(int j=0;j<size;j++){
                 if(grid->grad[j][i] == 2){
                     grid->grad[j][i] = 0;
@@ -856,7 +906,7 @@ int clue2(struct grille* grid,int size){
                 }
             }
         }
-        if(cpt_c0 == (size/2)){
+        if(cpt_c0 == 4){
             for(int j=0;j<size;j++){
                 if(grid->grad[j][i] == 2){
                     grid->grad[j][i] = 1;
@@ -929,12 +979,11 @@ void print_solve(struct grille grid,int size){
 }
 int compare_grid(struct grille grid , struct grille* grille){
     print1(grid);
-    printf("-------p");
     print1(*grille);
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
             if(grille->grid[i][j] == 2){
-                printf("bonsoir");
+
                 return 0;
             }
         }
@@ -943,12 +992,10 @@ int compare_grid(struct grille grid , struct grille* grille){
 }
 int compare_grid2(struct grille grid , struct grille* grille){
     print1(grid);
-    printf("-------p");
     print1(*grille);
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             if(grille->grad[i][j] == 2){
-                printf("bonsoir");
                 return 0;
             }
         }
@@ -956,46 +1003,63 @@ int compare_grid2(struct grille grid , struct grille* grille){
     return 1;
 }
 void move(struct grille grid , struct grille* mask, int* ptr_lives,int size){
-    if(size==4){
-        int x =-1;
-        printf("Enter the x row you want to complete \n x= ");
+    if(size==4) {
+        int c = -1;
+        printf("Do you want a clue ? (1:Yes, 0:No ");
         do {
-            scanf("%d" ,&x);
-        }
-        while(x>4 || x<1);
-        x--;
-        int y =-1;
-        printf("Enter the y column you want to complete \n y= ");
-        do {
-            scanf("%d",&y);
-        }
-        while(y>4 || y<1);
-        y--;
-        if(mask->grid[x][y] != 2){
-            printf("This case is already assigned\n value = %d", mask->grid[x][y]);
-            sleep(1);
-        }
-        else {
-            int value = -1;
-            printf("Enter the value (0;1) \n value= ");
+            scanf("%d", &c);
+        } while (c > 1 || c < 0);
+        if (c == 1) {
+            clue(mask, size);
+        } else {
+            int x = -1;
+            printf("Enter the x row you want to complete \n x= ");
             do {
-                scanf("%d", &value);
-            } while (value > 1 || value < 0);
-
-            printf("Checking if it is the right move\n");
-            if (grid.grid[x][y] == value) {
-                printf("It is the right move\n");
-                mask->grid[x][y] = value;
+                scanf("%d", &x);
+            } while (x > 4 || x < 1);
+            x--;
+            int y = -1;
+            printf("Enter the y column you want to complete \n y= ");
+            do {
+                scanf("%d", &y);
+            } while (y > 4 || y < 1);
+            y--;
+            if (mask->grid[x][y] != 2) {
+                printf("This case is already assigned\n value = %d", mask->grid[x][y]);
                 sleep(1);
             } else {
-                printf("This is not the correct move\n");
-                (*ptr_lives)--;
-                printf("You have %d lives\n", *ptr_lives);
-                sleep(1);
+                int value = -1;
+                printf("Enter the value (0;1) \n value= ");
+                do {
+                    scanf("%d", &value);
+                } while (value > 1 || value < 0);
+
+                printf("Checking if it is the right move\n");
+                if (grid.grid[x][y] == value) {
+                    printf("It is the right move\n");
+                    mask->grid[x][y] = value;
+                    sleep(1);
+                } else {
+                    printf("This is not the correct move\n");
+                    (*ptr_lives)--;
+                    printf("You have %d lives\n", *ptr_lives);
+                    sleep(1);
+                }
             }
         }
-        }
+    }
     else{
+        int c = -1;
+        printf("Do you want a clue ? (1:Yes, 0:No ");
+        do {
+            scanf("%d", &c);
+        } while (c > 1 || c < 0);
+        if (c == 1) {
+            clue(mask, size);
+        }
+        else{
+
+
         int x =-1;
         printf("Enter the x row you want to complete \n x= ");
         do {
@@ -1031,7 +1095,7 @@ void move(struct grille grid , struct grille* mask, int* ptr_lives,int size){
                 (*ptr_lives)--;
                 printf("You have %d lives\n", *ptr_lives);
                 sleep(1);
-            }
+            }}
         }
     }
 }
@@ -1092,35 +1156,48 @@ struct grille generate_grad(){
 };
 struct grille maxence() {
     struct grille grad1;
-    int line[20][8] =
-            {
-                    {0, 0, 1, 1, 0, 0, 1, 1},
-                    {0, 1, 1, 0, 1, 1, 0, 0},
-                    {1, 1, 0, 0, 1, 0, 1, 0},
-                    {1, 0, 0, 1, 0, 0, 1, 1},
-                    {0, 0, 1, 1, 0, 1, 0, 1},
-                    {1, 1, 0, 0, 1, 1, 0, 0},
-                    {1, 0, 1, 0, 1, 0, 1, 0},
-                    {0, 1, 0, 1, 0, 0, 1, 1},
-                    {0, 0, 1, 1, 0, 1, 1, 0},
-                    {0, 1, 0, 1, 0, 1, 1, 0},
-                    {1, 0, 0, 1, 1, 0, 0, 1},
-                    {1, 0, 1, 0, 0, 1, 1, 0},
-                    {1, 0, 0, 1, 0, 1, 0, 1},
-                    {0, 1, 1, 0, 1, 0, 1, 0},
-                    {0, 1, 1, 0, 1, 0, 1, 0},
-                    {0, 1, 0, 1, 1, 0, 0, 1},
-                    {1, 0, 0, 1, 0, 1, 0, 1},
-                    {0, 1, 1, 0, 1, 0, 0, 1},
-                    {0, 1, 0, 1, 0, 1, 0, 1},
-                    {1, 0, 0, 1, 0, 1, 1, 0}
+    int line[34][8] =
+            {{0, 0, 1, 1, 0, 0, 1, 1},
+             {0, 1, 1, 0, 1, 1, 0, 0},
+             {1, 1, 0, 0, 1, 0, 1, 0},
+             {1, 0, 0, 1, 0, 0, 1, 1},
+             {0, 0, 1, 1, 0, 1, 0, 1},
+             {1, 1, 0, 0, 1, 1, 0, 0},
+             {1, 0, 1, 0, 1, 0, 1, 0},
+             {0, 1, 0, 1, 0, 0, 1, 1},
+             {0, 0, 1, 1, 0, 1, 1, 0},
+             {0, 1, 0, 1, 0, 1, 1, 0},
+             {1, 0, 0, 1, 1, 0, 0, 1},
+             {1, 0, 1, 0, 0, 1, 1, 0},
+             {1, 0, 0, 1, 0, 1, 0, 1},
+             {0, 1, 1, 0, 1, 0, 1, 0},
+             {0, 1, 1, 0, 1, 0, 1, 0},
+             {0, 1, 0, 1, 1, 0, 0, 1},
+             {0, 1, 1, 0, 1, 0, 0, 1},
+             {0, 1, 1, 0, 1, 0, 0, 1},
+             {0, 1, 0, 1, 0, 1, 0, 1},
+             {1, 0, 0, 1, 0, 1, 1, 0},
+             {1, 0, 1, 0, 1, 1, 0, 0},
+             {1, 0, 1, 0, 0, 1, 0, 1},
+             {1, 0, 1, 1, 0, 1, 0, 0},
+             {0, 0, 1, 0, 1, 1, 0, 1},
+             {0, 1, 0, 0, 1, 1, 0, 1},
+             {1, 1, 0, 1, 0, 0, 1, 0},
+             {1, 0, 1, 1, 0, 0, 1, 0},
+             {0, 1, 0, 0, 1, 0, 1, 1},
+             {1, 1, 0, 1, 0, 1, 0, 0},
+             {0, 1, 1, 0, 0, 1, 0, 1},
+             {1, 0, 0, 1, 1, 0, 1, 0},
+             {1, 0, 1, 0, 1, 0, 0, 1},
+             {0, 0, 1, 0, 1, 0, 1, 1},
+             {0, 1, 1, 0, 0, 1, 1, 0}
             };
     int random[8];
     int ok = 0;
     while (ok != 1) {
         ok = 1;
         for (int i = 0; i < 8; i++) {
-            random[i] = rand() % 20;
+            random[i] = rand() % 33;
         }
         for (int w = 0; w < 8; w++) {
             for (int x = 0; x < 8; x++) {
@@ -1139,4 +1216,29 @@ struct grille maxence() {
         }
     }
     return grad1;
+}
+int compteur_column(struct grille grid){
+    int un = 0;
+    int a = 0;
+    for (int i = 0;i<8;i++) {
+        for (int e = 0; e < 8; e++) {
+            un += grid.grad[e][i];
+        }
+        if (un != 4) {
+            a = 1;
+            un = 0;
+            break;
+        }
+        else {
+            un = 0;
+        }
+    }
+
+    if (a == 1){
+        return 0;
+    }
+    else {
+        return 1;
+    }
+
 }

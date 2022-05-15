@@ -19,7 +19,7 @@ struct combo{
     int grid[19][8];
 };
 
-
+int compteur_column(struct grille grid);
 struct grille generate_grad();
 struct grille clear_grid2(struct grille* grid);
 int verif_mask2(struct grille grid,int size);

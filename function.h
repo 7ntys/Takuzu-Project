@@ -12,18 +12,19 @@
 #endif //TAKUZU_PROJECT_FUNCTION_H
 struct grille{
     int grid[4][4];
-    int grid2[8][8];
+    int grad[8][8];
 };
 
 
 
+struct grille generate_grad();
 void intro();
 void clear();
 int menu();
 void sleep();
 void solve_grid();
 void automatic_solve();
-struct grille generate_grid();
+struct grille generate_grid(int ask);
 int chose_size();
 int check_grid(int n);
 int test(int n, int grid[4][4] );

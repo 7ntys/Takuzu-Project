@@ -75,7 +75,7 @@ void solve_grid(){
     mask = (struct grille*) malloc(sizeof(struct grille));
     int result=0;
     while(result ==0) {
-        grid = generate_grid();
+        grid = generate_grid(0);
         clear();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -144,19 +144,64 @@ void automatic_solve(){
     menu();
 
 }
-struct grille generate_grid(){
-    int size = 4;
-    int grid[4][4];
-    while(test(size,grid) == 0){
-        test(size,grid);
-    }
-    struct grille test;
-    for(int i=0;i<4;i++){
-        for(int j=0;j<4;j++){
-            test.grid[i][j] = grid[i][j];
+struct grille generate_grid(int ask){
+    if (ask == 0) {
+        int size = chose_size();
+        if (size == 1) {
+            int grid[4][4];
+            while (test(size, grid) == 0) {
+                test(size, grid);
+            }
+            struct grille test;
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+                    test.grid[i][j] = grid[i][j];
+                }
+            }
+            return test;
+        } else if (size == 2) {
+            int rep = 1;
+            int validity = 0;
+            while (validity != 1) {
+                struct grille grad1 = generate_grad();
+                validity = 1;
+                for (int x = 0;x < 8;x++) {
+                    for (int y = 2; y < 4; y++) {
+                        if ((grad1.grad[x][y] == grad1.grad[x][y+1]) && (grad1.grad[x][y] == grad1.grad[x][y+2])){
+                            validity = 0;
+                        }
+                    }
+                }
+                for (int x = 2;x < 4;x++) {
+                    for (int y = 0; y < 8; y++) {
+                        if ((grad1.grad[x][y] == grad1.grad[x + 1][y]) && (grad1.grad[x][y] == grad1.grad[x + 2][y])) {
+                            validity = 0;
+                        }
+                    }
+                }
+
+
+                rep++;
+            }
+            printf("Le nombre de tour de boucle est de %d",rep);
+            struct grille grid1;
+            return grid1;
+
         }
     }
-    return test;
+    else if(ask == 4){
+        int grid[4][4];
+        while (test(1, grid) == 0) {
+            test(1, grid);
+        }
+        struct grille test;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                test.grid[i][j] = grid[i][j];
+            }
+        }
+        return test;
+    }
 }
 int chose_size(){
     int answer;
@@ -179,7 +224,6 @@ int test(int n, int grid[4][4]){
     /* each row should be considered as a binary code from 0 to 15 */
     /*generation of the grid */
     int nombre_1 = 0;
-    int j =0;
     int array[4];
     for(int a=0;a<4;a++){
         /*Premiere iteration : pas besoin de regarder le nombre de 1 : cette ligne dicte le takuzu */
@@ -253,13 +297,14 @@ int test(int n, int grid[4][4]){
                 return 0;
             }
             else{
+                printf("\n");
                 return 1;
 
             }
 
         }
         }
-    print(grid);
+    //print(grid);
     if(nombre_1 !=2 ){
         test(4 , grid);
     }
@@ -312,7 +357,7 @@ int indice(int n ,int grid[4][4]) {
             grid[3][x] =0;
         }
     }
-    print(grid);
+    //print(grid);
 }
 void print(int grid[4][4]){
     clear();
@@ -662,3 +707,59 @@ void convert(int grid[4][4], struct grille* grid1){
         }
     }
 }
+
+}
+struct grille generate_grad(){
+    struct grille grid1;
+    struct grille grid2;
+    struct grille grid3;
+    struct grille grid4;
+    struct grille grad1;
+    int validity = 1;
+    //printf(" --------Grille 1 --------");
+    grid1 = generate_grid(4);
+    //printf(" --------Grille 2 --------");
+    grid2 = generate_grid(4);
+    //printf(" --------Grille 3 --------");
+    grid3 = generate_grid(4);
+    //printf(" --------Grille 4 --------");
+    grid4 = generate_grid(4);
+    printf("----------Grille 8x8----------\n");
+    for (int x = 0;x < 8;x++){
+        for (int y = 0;y < 8;y++) {
+
+            if (x >= 0 && x <= 3 && y >= 0 && y <= 3) {
+                grad1.grad[x][y] = grid1.grid[x][y];
+
+
+            }
+            else if (x >= 0 && x <= 3 && y >= 4 && y <= 7) {
+                grad1.grad[x][y] = grid2.grid[x][y-4];
+            }
+            else if (x >= 4 && x <= 7 && y >= 0 && y <= 3) {
+                grad1.grad[x][y] = grid3.grid[x-4][y];
+            }
+            else if (x >= 4 && x <= 7 && y >= 4 && y <= 7) {
+                grad1.grad[x][y] = grid4.grid[x-4][y-4];
+            }
+        }
+
+
+
+    }
+    //-validité
+
+    //-validité
+    for (int x = 0;x < 8;x++) {
+        for (int y = 0; y < 8; y++) {
+            printf("%d ", grad1.grad[x][y]);
+
+        }
+        printf(" \n");
+    }
+
+    return grad1;
+
+
+
+};

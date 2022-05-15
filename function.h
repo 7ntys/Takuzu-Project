@@ -12,23 +12,25 @@
 #endif //TAKUZU_PROJECT_FUNCTION_H
 struct grille{
     int grid[4][4];
+    int grad[8][8];
 };
 
 
 
+struct grille generate_grad();
 void intro();
 void clear();
 int menu();
 void sleep();
 void solve_grid();
 void automatic_solve();
-struct grille generate_grid();
+struct grille generate_grid(int ask);
 int chose_size();
 int check_grid(int n);
 int test(int n, int grid[4][4] );
 int generate_row();
-int indice(int n,grid[n][n]);
-void print(grid[4][4]);
+int indice(int n,int grid[n][n]);
+void print(int grid[4][4]);
 int* array1(int grid[4][4],int* pointeur);
 int verification(int grid[4][4]);
 int conversion_binaire(int array[4]);

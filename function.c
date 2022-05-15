@@ -173,12 +173,19 @@ struct grille generate_grid(int ask){
             return test;
         } else if (size == 2) {
             struct grille grad1 = real_grid(0);
+            printf(" \n");
+            for (int x = 0;x < 8;x++) {
+                for (int y = 0; y < 8; y++) {
+                    printf("%d ", grad1.grad[x][y]);
+
+                }
+                printf(" \n");
+            }
 
 
 
 
-
-            struct grille grid1;
+            //struct grille grid1;
             return grad1;
 
         }
@@ -751,7 +758,6 @@ struct grille generate_grad(){
     grid3 = generate_grid(4);
     //printf(" --------Grille 4 --------");
     grid4 = generate_grid(4);
-    printf("----------Grille 8x8----------\n");
     for (int x = 0;x < 8;x++){
         for (int y = 0;y < 8;y++) {
 
@@ -773,16 +779,6 @@ struct grille generate_grad(){
 
 
 
-    }
-    //-validité
-
-    //-validité
-    for (int x = 0;x < 8;x++) {
-        for (int y = 0; y < 8; y++) {
-            printf("%d ", grad1.grad[x][y]);
-
-        }
-        printf(" \n");
     }
 
     return grad1;

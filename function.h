@@ -41,3 +41,6 @@ int verif_mask(struct grille grid);
 int clue(struct grille* grid);
 void print1(struct grille grid);
 int compare_grid(struct grille grid , struct grille* grille);
+void print_solve(struct grille grid);
+void move(struct grille grid, struct grille* mask, int* ptr_lives);
+int is_mask_completed(struct grille grid,struct grille mask);

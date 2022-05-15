@@ -20,7 +20,7 @@ int menu(){
            "1 : Solve a grid \n"
            "2 : Solve automatically a grid \n"
            "3 : Generate a Grid\n"
-            );
+    );
     scanf("%d",&answer);
     while(answer < 1 || answer > 4){
         clear();
@@ -157,6 +157,7 @@ void automatic_solve(){
 }
 struct grille generate_grid(int ask){
     if (ask == 0) {
+
         int size = chose_size();
         if (size == 1) {
             int grid[4][4];
@@ -197,7 +198,7 @@ struct grille generate_grid(int ask){
         }
         struct grille test;
         convert(grid,&test);
-        print(grid);
+        print(test);
         return test;
     }
 }
@@ -256,7 +257,7 @@ int test(int n, int grid[4][4]){
                 break;
             }
         }
-        /* Premiere itération passé, on doit mtn regarder le nombre de 1 a mettre*/
+            /* Premiere itération passé, on doit mtn regarder le nombre de 1 a mettre*/
         else if(a==1){
             /*On sait que l'on a nombre_1 nombre de 1 : il faut donc qu'on s'assure qu'il y ait autant de 1 que dans
              * la premiere ligne*/
@@ -302,14 +303,14 @@ int test(int n, int grid[4][4]){
             }
 
         }
-        }
+    }
     //print(grid);
     if(nombre_1 !=2 ){
         test(4 , grid);
     }
 
 
-    }
+}
 int indice(int n ,int grid[4][4]) {
     int array[4] = {0, 0, 0, 0};
     for (int i = 2; i < 4; i++) {
@@ -398,6 +399,9 @@ struct grille real_grid(int n){
                     validity = 0;
                 }
             }
+        }
+        if((verification(grad1,8) == 0)&&(validity==1) ){
+            validity=0;
         }
         rep++;
     }
@@ -533,7 +537,7 @@ int generate_mask(struct grille grid, struct grille* mask){
     int a =verif_mask(*mask);
     printf("on print a :%d", a);
     return a;
-    }
+}
 struct grille clear_grid(struct grille* grid){
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -778,12 +782,6 @@ struct grille generate_grad(){
 
     }
     //-validité
-    if(verification(grad1,8) == 0){
-        printf("grille nn valide");
-    }
-    else{
-        printf("grille valide");
-    }
     //-validité
     for (int x = 0;x < 8;x++) {
         for (int y = 0; y < 8; y++) {

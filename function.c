@@ -59,13 +59,7 @@ int menu(){
         printf("%d",answer);
         struct grille temp;
         temp = generate_grid(0);
-        printf("\n----------8X8----------\n");
-        for (int c = 0; c < 8; c++) {
-            for (int e = 0; e < 8; e++) {
-                printf("%d ", temp.grad[c][e]);
-            }
-            printf("\n");
-        }
+
         clear();
         menu();
     }

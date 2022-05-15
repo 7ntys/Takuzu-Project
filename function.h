@@ -21,6 +21,11 @@ struct combo{
 
 
 struct grille generate_grad();
+struct grille clear_grid2(struct grille* grid);
+int verif_mask2(struct grille grid,int size);
+int clue2(struct grille* grid,int size);
+int compare_grid2(struct grille grid , struct grille* grille);
+void print2(struct grille grid);
 void intro();
 void clear();
 int menu();
@@ -40,15 +45,17 @@ int conversion_binaire(int* array, int size);
 void recup_ligne(struct grille grid , int i, int* a, int size);
 void clear_ligne(int* array, int size);
 void recup_column(struct grille grid,int i ,int* a,int size);
-int generate_mask(struct grille grid, struct grille* mask);
+int generate_mask(struct grille grid, struct grille* mask,int size);
+int generate_mask2(struct grille grid, struct grille* mask,int size);
 struct grille clear_grid(struct grille* grid);
-int verif_mask(struct grille grid);
-int clue(struct grille* grid);
+int verif_mask(struct grille grid,int size);
+int clue(struct grille* grid,int size);
 void print1(struct grille grid);
 int compare_grid(struct grille grid , struct grille* grille);
-void print_solve(struct grille grid);
-void move(struct grille grid, struct grille* mask, int* ptr_lives);
+void print_solve(struct grille grid,int size);
+void move(struct grille grid, struct grille* mask, int* ptr_lives,int size);
 int is_mask_completed(struct grille grid,struct grille mask);
 void convert(int grid[4][4], struct grille* grid1);
+int verification2(struct grille grid, int size);
 struct grille real_grid(int n);
 struct grille maxence();

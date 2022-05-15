@@ -168,9 +168,6 @@ void automatic_solve(){
                 printf(" \n");
                 menu();
             }
-            else{
-
-            }
         }
     }
     else{

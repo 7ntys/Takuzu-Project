@@ -137,33 +137,40 @@ void automatic_solve(){
         size=4;
         while(verif ==0){
             clear();
-            grid = generate_grid(0);
+            grid = generate_grid(4);
             verif = generate_mask(grid,&mask, size);
-            clear();
-            printf("The computer has this mask : \n");
-            print1(mask);
-            printf("He has to resolve it\n");
-            printf("\n");
-            sleep(3);
-            float temp_exec;
-            clock_t t1,t2;
-            clear();
-            t1 = clock();
-            int steps =0;
-            while(clue2(&mask,size) == 0){
-                steps ++;
+            if(verif==1) {
+
+
                 clear();
-                printf("Number of steps : %d\n", steps);
+                printf("The computer has this mask : \n");
                 print1(mask);
+                printf("He has to resolve it\n");
                 printf("\n");
-                //sleep(2);
+                sleep(1);
+                float temp_exec;
+                clock_t t1, t2;
+                clear();
+                t1 = clock();
+                int steps = 0;
+                while (clue(&mask, size) == 0) {
+                    steps++;
+                    clear();
+                    printf("Number of steps : %d\n", steps);
+                    print1(mask);
+                    printf("\n");
+                    //sleep(2);
+                }
+                t2 = clock();
+                temp_exec = (float) ((t2 - t1) - (steps * 2)) / CLOCKS_PER_SEC;
+                printf("Le programme a résolu la grille en %f seconde \n", temp_exec);
+                sleep(3);
+                printf(" \n");
+                menu();
             }
-            t2 = clock();
-            temp_exec = (float)((t2-t1)-(steps*2))/CLOCKS_PER_SEC;
-            printf("Le programme a résolu la grille en %f seconde \n",temp_exec);
-            sleep(3);
-            printf(" \n");
-            menu();
+            else{
+
+            }
         }
     }
     else{
@@ -645,7 +652,7 @@ int generate_mask(struct grille grid, struct grille* mask,int size){
     clear_grid(mask);
     int compteur=0;
     /* On genere un masque avec x indices */
-    int x = 4;
+    int x = 6;
     x += (rand()%((size*2)-4));
     while(compteur <=x){
         int index_x = rand() % size;

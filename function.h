@@ -17,6 +17,7 @@ struct grille{
 
 
 
+
 struct grille generate_grad();
 void intro();
 void clear();

@@ -296,6 +296,7 @@ int test(int n, int grid[4][4]){
             }
             else{
                 printf("\n");
+
                 return 1;
 
             }

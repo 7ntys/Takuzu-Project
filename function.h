@@ -17,6 +17,7 @@ struct grille{
 
 
 
+
 struct grille generate_grad();
 void intro();
 void clear();
@@ -32,7 +33,7 @@ int generate_row();
 int indice(int n,int grid[4][4]);
 void print(grid[4][4]);
 int* array1(int grid[4][4],int* pointeur);
-int verification(struct grille grid);
+int verification(struct grille grid, int size);
 int conversion_binaire(int* array, int size);
 void recup_ligne(struct grille grid , int i, int* a, int size);
 void clear_ligne(int* array, int size);

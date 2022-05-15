@@ -114,7 +114,7 @@ void automatic_solve(){
     struct grille mask;
     while(verif ==0){
         clear();
-        grid = generate_grid();
+        grid = generate_grid(0);
         verif = generate_mask(grid,&mask);
     }
     clear();
@@ -158,6 +158,7 @@ struct grille generate_grid(int ask){
                     test.grid[i][j] = grid[i][j];
                 }
             }
+            print(grid);
             return test;
         } else if (size == 2) {
             int rep = 1;
@@ -195,11 +196,8 @@ struct grille generate_grid(int ask){
             test(1, grid);
         }
         struct grille test;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                test.grid[i][j] = grid[i][j];
-            }
-        }
+        convert(grid,&test);
+        print(grid);
         return test;
     }
 }
@@ -293,11 +291,12 @@ int test(int n, int grid[4][4]){
             indice(n,grid);
             struct grille grid1;
             convert(grid,&grid1);
-            if(verification(grid1)==0){
-                return 0;
+            if(verification(grid1,4)==0){
+                test(4,grid);
             }
             else{
                 printf("\n");
+
                 return 1;
 
             }
@@ -385,8 +384,7 @@ int* array1(int grid[4][4],int* pointeur){
 
     return pointeur;
 }
-int verification(struct grille grid) {
-    int size =4;
+int verification(struct grille grid, int size) {
     int similarity = 0;
     int *p;
     int* nombre = (int *)malloc(size*(sizeof (int)));
@@ -434,7 +432,7 @@ int verification(struct grille grid) {
             }
         }
         if(similarity==1){
-            test(4,grid.grid);
+            return 0;
         }
         else{
             return 1;
@@ -707,8 +705,6 @@ void convert(int grid[4][4], struct grille* grid1){
         }
     }
 }
-
-}
 struct grille generate_grad(){
     struct grille grid1;
     struct grille grid2;
@@ -716,13 +712,13 @@ struct grille generate_grad(){
     struct grille grid4;
     struct grille grad1;
     int validity = 1;
-    //printf(" --------Grille 1 --------");
+    printf(" --------Grille 1 --------");
     grid1 = generate_grid(4);
-    //printf(" --------Grille 2 --------");
+    printf(" --------Grille 2 --------");
     grid2 = generate_grid(4);
-    //printf(" --------Grille 3 --------");
+    printf(" --------Grille 3 --------");
     grid3 = generate_grid(4);
-    //printf(" --------Grille 4 --------");
+    printf(" --------Grille 4 --------");
     grid4 = generate_grid(4);
     printf("----------Grille 8x8----------\n");
     for (int x = 0;x < 8;x++){
@@ -748,7 +744,12 @@ struct grille generate_grad(){
 
     }
     //-validité
-
+    if(verification(grad1,8) == 0){
+        printf("grille nn valide");
+    }
+    else{
+        printf("grille valide");
+    }
     //-validité
     for (int x = 0;x < 8;x++) {
         for (int y = 0; y < 8; y++) {

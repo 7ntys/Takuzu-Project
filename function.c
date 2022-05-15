@@ -157,6 +157,7 @@ void automatic_solve(){
 }
 struct grille generate_grid(int ask){
     if (ask == 0) {
+
         int size = chose_size();
         if (size == 1) {
             int grid[4][4];
